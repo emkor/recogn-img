@@ -7,10 +7,10 @@ class PredResult:
 
     __slots__ = ["obj_class", "prob", "box"]
 
-    def __init__(self, obj_class: str, box: Tuple[int, int, int, int], prob: float) -> None:
+    def __init__(self, obj_class: str, prob: float, box: Tuple[int, int, int, int]) -> None:
         self.obj_class = obj_class
-        self.box = box  # top, left, width, height, all in pixels
         self.prob = prob  # in range [0.0 - 1.0]
+        self.box = box  # top, left, width, height, all in pixels
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.obj_class}, {self.prob}, {self.box})"
@@ -19,16 +19,31 @@ class PredResult:
         return self.__repr__()
 
     def __eq__(self, other):
-        return self.obj_class == other.obj_type \
-               and abs(self.prob - other.prob) <= self.PROB_MAX_DELTA_CONSIDERED_EQUAL \
-               and all([abs(self.box[i] - other.box[1]) <= self.BOX_MAX_DELTA_CONSIDERED_EQUAL
-                        for i in range(len(self.box))])
+        prob_diff = abs(self.prob - other.prob)
+        box_diff = [abs(self.box[i] - other.box[i]) for i in range(len(self.box))]
+        return self.obj_class == other.obj_class \
+               and prob_diff <= self.PROB_MAX_DELTA_CONSIDERED_EQUAL \
+               and all([d <= self.BOX_MAX_DELTA_CONSIDERED_EQUAL for d in box_diff])
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
         return hash(self.obj_class)
+
+    def __lt__(self, other) -> bool:
+        return self.__cmp__(other) == -1
+
+    def __le__(self, other):
+        r = self.__cmp__(other)
+        return r == -1 or r == 0
+
+    def __gt__(self, other):
+        return self.__cmp__(other) == 1
+
+    def __ge__(self, other):
+        r = self.__cmp__(other)
+        return r == 1 or r == 0
 
     def __cmp__(self, other):
         if self.prob < other.prob:
