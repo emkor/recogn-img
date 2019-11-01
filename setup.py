@@ -15,7 +15,7 @@ with open("README.md", "r") as fh:
 setup(
     name="recogn-img",
     version="0.0.1",
-    description="Library for simple object recognition on images using YOLO model",
+    description="Library for simple object recognition in images using YOLO model",
     author="Mateusz Korzeniowski",
     author_email="emkor93@gmail.com",
     long_description=long_description,
@@ -32,5 +32,15 @@ setup(
             "recogn-img = recogn_img.main:cli_main"
         ]
     },
-    classifiers=[],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3",
+        "Topic :: Scientific/Engineering :: Image Recognition",
+        "Topic :: Software Development :: Version Control :: Git",
+        "Topic :: Utilities"
+    ],
 )
