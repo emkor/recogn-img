@@ -1,5 +1,7 @@
 # recogn-img
-Library for simple object recognition on images using YOLO model
+Library for simple object recognition on images using YOLO model.
+
+Inspired by [machinelearningmastery.com](https://machinelearningmastery.com/how-to-perform-object-detection-with-yolov3-in-keras/) article by Jason Brownlee. 
 
 ## usage
 - as a library:
@@ -30,7 +32,5 @@ render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 - YOLO pre-trained model (weights file) converted to Keras model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29.h5.zip)
 - file with list of classes for given model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29_coco_classes.txt)
 
-### running tests
-- install test tools with `pip install -r requirements-dev.txt`
-- unit tests: `pytest -v --cov=./recogn_img ./recogn_img/test`
-- type check: `mypy --ignore-missing-imports ./recogn_img`
+### development
+- for development, use or take a look at `Makefile`
