@@ -6,7 +6,7 @@ from typing import List
 
 from recogn_img import PredResult
 from recogn_img.recogn import Recognizer
-from recogn_img.utils import setup_log, get_log
+from recogn_img.utils import setup_log, get_log, read_classes
 
 
 def _parse_args() -> argparse.Namespace:
@@ -26,12 +26,6 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument('--obj-threshold', type=float, default=0.5, help='Object detection threshold')
     parser.add_argument('--verbose', action='store_true', help='Enable more verbose logging')
     return parser.parse_args()
-
-
-def read_classes(classes_file: str) -> List[str]:
-    with open(classes_file) as f_:
-        class_names = f_.readlines()
-    return [c.strip() for c in class_names]
 
 
 def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
@@ -71,7 +65,8 @@ def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
             log.info("No detections, omitting creating results file")
     took_sec = time.time() - start_time
     log.info(
-        f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
+        f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), \
+        took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
 
 
 def _serialized_results_desc(results: List[PredResult]) -> List[PredResult]:

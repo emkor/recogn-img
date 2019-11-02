@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="recogn-img",
-    version="0.0.2",
+    version="0.0.3",
     description="Library for simple object recognition in images using YOLO model",
     author="Mateusz Korzeniowski",
     author_email="emkor93@gmail.com",
@@ -29,7 +29,8 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "recogn-img = recogn_img.recogn_main:cli_main"
+            "recogn-img = recogn_img.main_recogn:cli_main",
+            "render-recogn = recogn_img.main_render:cli_main"
         ]
     },
     classifiers=[

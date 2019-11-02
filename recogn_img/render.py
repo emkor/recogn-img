@@ -17,17 +17,16 @@ class RecognRender:
         self.transfer_exif = transfer_exif
         self.log = get_log()
 
-    def render(self) -> None:
-        if path.exists(self.results_file_path) and path.isdir(self.output_path):
-            with open(self.results_file_path, "r") as file_:
-                all_results = json.load(file_)
-            for img_file_path, results in all_results.items():
-                if results:
-                    tgt_img_path = path.join(self.output_path, path.basename(img_file_path))
-                    self._store_rendered_image(img_file_path, results, tgt_img_path)
-        else:
-            raise ValueError(f"Either given results file {self.results_file_path} \
-            or output path {self.output_path} does not exist")
+    def render(self) -> int:
+        copied_images = 0
+        with open(self.results_file_path, "r") as file_:
+            all_results = json.load(file_)
+        for img_file_path, results in all_results.items():
+            if results:
+                tgt_img_path = path.join(self.output_path, path.basename(img_file_path))
+                self._store_rendered_image(img_file_path, results, tgt_img_path)
+                copied_images += 1
+        return copied_images
 
     def _store_rendered_image(self, orig_img_path: str, results: List[Dict[str, Any]], tgt_img_path: str) -> None:
         pred_results = [PredResult.from_serializable(r) for r in results]

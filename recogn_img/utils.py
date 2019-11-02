@@ -23,3 +23,9 @@ def get_log():
 def get_file_paths_from(dir_path: str) -> List[str]:
     return [os.path.join(dir_path, p) for p in os.listdir(dir_path)
             if os.path.isfile(p)]
+
+
+def read_classes(classes_file: str) -> List[str]:
+    with open(classes_file) as f_:
+        class_names = f_.readlines()
+    return [c.strip() for c in class_names]
