@@ -9,6 +9,8 @@ install:
 script:
   - make ut
   - make build
+  - make dl_model
+  - make e2e
 
 notifications:
   email:
