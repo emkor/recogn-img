@@ -1,5 +1,6 @@
 import argparse
 import json
+import time
 from os import path
 from typing import List
 
@@ -37,26 +38,35 @@ def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
     recognizer = Recognizer(model_path=model_file, classes=classes,
                             img_width_height=(img_width, img_height),
                             threshold_box_obj=(box_threshold, obj_threshold))
+    start_time, detections, images = time.time(), 0, 0
     if path.exists(results_path) and path.isdir(results_path):
-        print(
-            f"Storing results under {path.abspath(results_path)} directory, one JSON file per image if image has objects in it.")
+        print(f"Results will be stored under {path.abspath(results_path)} directory, \
+        one JSON file per image if image has objects in it.")
+
         for img_path, results in recognizer.recognize_all(input_dir):
+            images += 1
             if results:
-                target_json = "f{img_path}.json"
+                detections += 1
+                target_json = f"{img_path}.json"
                 with open(target_json, "w") as img_results_file:
                     json.dump(_serialized_results_desc(results), img_results_file)
+                print(f"Detection on {path.basename(img_path)}: {set([r.obj_class for r in results])}")
     else:
-        print(f"Storing results in single JSON file: {path.abspath(results_path)}")
+        print(f"Results will be stored in single JSON file at {path.abspath(results_path)}")
         output = {}
         for img_path, results in recognizer.recognize_all(input_dir):
+            images += 1
             if results:
+                detections += 1
                 output.update({img_path: _serialized_results_desc(results)})
+                print(f"Detection on {path.basename(img_path)}: {set([r.obj_class for r in results])}")
         if output:
             with open(results_path, "w") as results_file:
                 json.dump(output, results_file)
         else:
-            print("No detections, omitting creating results file!")
-    print("Done!")
+            print("No detections, omitting creating results file")
+    took_sec = time.time() - start_time
+    print(f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
 
 
 def _serialized_results_desc(results: List[PredResult]) -> List[PredResult]:
@@ -74,4 +84,4 @@ if __name__ == '__main__':
          "/home/mat/proj/docker-img-obj-classification/coco_classes.txt",
          "/home/mat/proj/recogn-img/tmp/input",
          "/home/mat/proj/recogn-img/tmp/results.json",
-         0.6, 0.5, 416, 416)
+         0.4, 0.3, 416, 416)
