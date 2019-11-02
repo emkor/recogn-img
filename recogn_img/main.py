@@ -66,7 +66,8 @@ def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
         else:
             print("No detections, omitting creating results file")
     took_sec = time.time() - start_time
-    print(f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
+    print(
+        f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
 
 
 def _serialized_results_desc(results: List[PredResult]) -> List[PredResult]:
@@ -80,8 +81,4 @@ def cli_main() -> None:
 
 
 if __name__ == '__main__':
-    main("/home/mat/proj/docker-img-obj-classification/keras_darknet_yolov3_2019_09_29.h5",
-         "/home/mat/proj/docker-img-obj-classification/coco_classes.txt",
-         "/home/mat/proj/recogn-img/tmp/input",
-         "/home/mat/proj/recogn-img/tmp/results.json",
-         0.4, 0.3, 416, 416)
+    cli_main()
