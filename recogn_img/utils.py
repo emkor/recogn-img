@@ -1,5 +1,7 @@
 import logging
+import os
 import time
+from typing import List
 
 LOG_NAME = "recogn-img"
 TENSORFLOW_LOG_NAME = "tensorflow"
@@ -16,3 +18,8 @@ def setup_log(verbose: bool = False):
 
 def get_log():
     return logging.getLogger(LOG_NAME)
+
+
+def get_file_paths_from(dir_path: str) -> List[str]:
+    return [os.path.join(dir_path, p) for p in os.listdir(dir_path)
+            if os.path.isfile(p)]

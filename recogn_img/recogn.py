@@ -1,4 +1,3 @@
-import os
 from copy import copy
 from typing import List, Tuple, Optional, Generator
 
@@ -6,7 +5,7 @@ import cv2
 import numpy as np
 
 from recogn_img.model import PredResult
-from recogn_img.utils import get_log
+from recogn_img.utils import get_log, get_file_paths_from
 from recogn_img.yolo import YoloModel
 
 DEFAULT_BOX_THRESHOLD = 0.5
@@ -30,8 +29,7 @@ class Recognizer:
         return self._detect_image(img_np_array, self._get_model(), orig_shape_height_width)
 
     def recognize_all(self, dir_path: str) -> Generator[Tuple[str, List[PredResult]], None, None]:
-        file_paths = [os.path.join(dir_path, p) for p in os.listdir(dir_path)]
-        for file_path in [p for p in file_paths if os.path.isfile(p)]:
+        for file_path in get_file_paths_from(dir_path):
             try:
                 yield (file_path, self.recognize(file_path))
             except Exception as e:
