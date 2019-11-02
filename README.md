@@ -27,9 +27,9 @@ render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 ```
 
 ## prerequisites
-- Linux with Python >=3.6 installed
+- Linux with Python >=3.7 installed
 - CPU with AVX instruction extensions (`tensorflow>=1.5.1` requires them)
-- YOLO pre-trained model (weights file) converted to Keras model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29.h5.zip)
+- YOLO pre-trained model (weights file) converted to Keras model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_30.h5.zip)
 - file with list of classes for given model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29_coco_classes.txt)
 
 ### development

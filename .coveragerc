@@ -1,0 +1,2 @@
+[run]
+omit = recogn_img/test/*
