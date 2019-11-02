@@ -1,4 +1,4 @@
-# recogn-img
+# recogn-img [![Build Status](https://travis-ci.com/emkor/recogn-img.svg?branch=master)](https://travis-ci.com/emkor/recogn-img)
 Library for simple object recognition on images using YOLO model.
 
 Inspired by [machinelearningmastery.com](https://machinelearningmastery.com/how-to-perform-object-detection-with-yolov3-in-keras/) article by Jason Brownlee. 
@@ -21,16 +21,15 @@ print(results)
 recogn-img yolov3.h5 coco_classes.txt ~/Pictures ~/RecognitionResults.json --img-width 416 --img-height 416 --box-threshold 0.5 --obj-threshold 0.6
 ```
 
-- CLI tool for storing images with rendered boxes in given dir:
+- as CLI tool for storing images with rendered boxes in given dir:
 ```shell script
 render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 ```
 
 ## prerequisites
-- Linux with Python >=3.7 installed
+- Linux with Python >= 3.7 installed
 - CPU with AVX instruction extensions (`tensorflow>=1.5.1` requires them)
-- YOLO pre-trained model (weights file) converted to Keras model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_30.h5.zip)
-- file with list of classes for given model, available [in this B2 bucket](https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29_coco_classes.txt)
+- YOLO pre-trained model (weights file) converted to Keras model (.h5 file), and file with list of classes for given model, both downloaded through `make dl_model` command for your convenience
 
 ### development
-- for development, use or take a look at `Makefile`
+- for development, take a look at `Makefile`
