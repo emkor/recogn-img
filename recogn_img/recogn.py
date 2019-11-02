@@ -1,5 +1,4 @@
 import os
-import traceback
 from copy import copy
 from typing import List, Tuple, Optional, Generator
 
@@ -7,6 +6,7 @@ import cv2
 import numpy as np
 
 from recogn_img.model import PredResult
+from recogn_img.utils import get_log
 from recogn_img.yolo import YoloModel
 
 DEFAULT_BOX_THRESHOLD = 0.5
@@ -21,6 +21,7 @@ class Recognizer:
         self.img_width_height = img_width_height
         self.threshold_box_obj = threshold_box_obj
         self._yolo_model: Optional[YoloModel] = None
+        self.log = get_log()
 
     def recognize(self, img_path: str) -> List[PredResult]:
         image = cv2.imread(img_path)
@@ -34,8 +35,7 @@ class Recognizer:
             try:
                 yield (file_path, self.recognize(file_path))
             except Exception as e:
-                traceback.print_exc()
-                print(f"Error on analyzing image {file_path}: {e}")
+                self.log.warning(f"Could not analyze {file_path}: {e}")
 
     def _get_model(self) -> YoloModel:
         if self._yolo_model is None:
