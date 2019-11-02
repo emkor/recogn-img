@@ -55,7 +55,7 @@ class Recognizer:
         if scores is not None:
             for box, class_, score in zip(boxes, classes, scores):
                 result = PredResult(obj_class=str(self.classes[class_]),
-                                    box=tuple([int(i) for i in box])[:4],
+                                    box=(int(box[0]), int(box[1]), int(box[2]), int(box[3])),
                                     prob=float(score))
                 results.append(result)
         return results

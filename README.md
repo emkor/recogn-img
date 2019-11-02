@@ -2,7 +2,7 @@
 Library for simple object recognition on images using YOLO model
 
 ## usage
-- as library:
+- as a library:
 ```python
 from recogn_img import read_classes, Recognizer
 
@@ -14,14 +14,14 @@ results = recognizer.recognize("my_image.jpg")
 print(results)
 ```
 
-- as CLI tool (each image results in separate JSON file, if `~/RecognitionResults` is directory):
-```shell script
-recogn-img yolov3.h5 coco_classes.txt ~/Pictures ~/RecognitionResults --img-width 416 --img-height 416 --box-threshold 0.5 --obj-threshold 0.6
-```
-
 - as CLI tool (single JSON with results):
 ```shell script
 recogn-img yolov3.h5 coco_classes.txt ~/Pictures ~/RecognitionResults.json --img-width 416 --img-height 416 --box-threshold 0.5 --obj-threshold 0.6
+```
+
+- CLI tool for storing images with rendered boxes in given dir:
+```shell script
+render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 ```
 
 ## prerequisites
