@@ -10,3 +10,5 @@ build/
 dist/
 
 **tmp**
+*classes.txt
+*.h5

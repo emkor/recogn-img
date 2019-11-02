@@ -5,8 +5,8 @@ PY3 = python3
 VENV = .venv/recogn-img
 VENV_PY3 = $(VENV)/bin/python3
 
-CLASSES_FILE_URL= https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29_coco_classes.txt
-MODEL_FILE_URL= https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_30.h5.zip
+CLASSES_FILE_URL = https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_29_coco_classes.txt
+MODEL_FILE_URL = https://f001.backblazeb2.com/file/ml-model/keras_darknet_yolov3_2019_09_30.h5.zip
 
 clean:
 	@echo "---- Cleaning cache and temporary files ----"
