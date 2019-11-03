@@ -22,7 +22,7 @@ def get_log():
 
 def get_file_paths_from(dir_path: str) -> List[str]:
     return [os.path.join(dir_path, p) for p in os.listdir(dir_path)
-            if os.path.isfile(p)]
+            if os.path.isfile(os.path.join(dir_path, p))]
 
 
 def read_classes(classes_file: str) -> List[str]:

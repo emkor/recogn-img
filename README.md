@@ -1,5 +1,5 @@
 # recogn-img [![Build Status](https://travis-ci.com/emkor/recogn-img.svg?branch=master)](https://travis-ci.com/emkor/recogn-img)
-Library for simple object recognition on images using YOLO model.
+Library for simple object recognition on images using [YOLO model](https://pjreddie.com/darknet/yolo/).
 
 Inspired by [machinelearningmastery.com](https://machinelearningmastery.com/how-to-perform-object-detection-with-yolov3-in-keras/) article by Jason Brownlee. 
 
@@ -31,5 +31,5 @@ render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 - CPU with AVX instruction extensions (`tensorflow>=1.5.1` requires them)
 - YOLO pre-trained model (weights file) converted to Keras model (.h5 file), and file with list of classes for given model, both downloaded through `make dl_model` command for your convenience
 
-### development
+## development
 - for development, take a look at `Makefile`

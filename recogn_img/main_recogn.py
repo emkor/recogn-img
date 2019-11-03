@@ -26,7 +26,7 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
+def main(model_file: str, classes_file: str, input_dir: str, results_file: str,
          obj_threshold: float, box_threshold: float, img_width: int, img_height: int, verbose: bool) -> None:
     setup_log(verbose=verbose)
     log = get_log()
@@ -42,14 +42,17 @@ def main(model_file: str, classes_file: str, input_dir: str, results_path: str,
             output.update({img_path: _serialized_results_desc(results)})
             log.debug(f"Detection on {path.basename(img_path)}: {set([r.obj_class for r in results])}")
     if output:
-        with open(results_path, "w") as results_file:
-            json.dump(output, results_file)
+        with open(results_file, "w") as results_file_:
+            json.dump(output, results_file_)
     else:
         log.info("No detections, omitting creating results file")
     took_sec = time.time() - start_time
-    log.info(
-        f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), \
-        took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
+    if images > 0:
+        log.info(
+            f"Done. Detection count: {detections}/{images} ({(detections / images * 100):.2f}%), \
+            took {took_sec:.1f}s = {(took_sec / images):.3f}s/image")
+    else:
+        log.warning("Done, no images found.")
 
 
 def _serialized_results_desc(results: List[PredResult]) -> List[Dict[str, Any]]:
@@ -58,7 +61,7 @@ def _serialized_results_desc(results: List[PredResult]) -> List[Dict[str, Any]]:
 
 def cli_main() -> None:
     args = _parse_args()
-    main(args.model_file, args.classes_file, args.input_dir, args.results, args.obj_threshold, args.box_threshold,
+    main(args.model_file, args.classes_file, args.input_dir, args.results_file, args.obj_threshold, args.box_threshold,
          args.img_width, args.img_height, args.verbose)
 
 
