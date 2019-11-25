@@ -30,6 +30,7 @@ render-recogn ~/RecognitionResults.json ~/RenderedImgs/ --copy-exif
 - Linux with Python >= 3.7 installed
 - CPU with AVX instruction extensions (`tensorflow>=1.5.1` requires them)
 - YOLO pre-trained model (weights file) converted to Keras model (.h5 file), and file with list of classes for given model, both downloaded through `make dl_model` command for your convenience
+- system libs (ubuntu example: `sudo apt update && sudo apt install -y libsm6 libxext6 libxrender1`)
 
 ## development
 - for development, take a look at `Makefile`

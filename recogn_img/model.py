@@ -3,7 +3,7 @@ from typing import Tuple, Any, Dict
 
 class PredResult:
     PROB_MAX_DELTA_CONSIDERED_EQUAL = 0.1
-    BOX_MAX_DELTA_CONSIDERED_EQUAL = 4
+    BOX_MAX_DELTA_CONSIDERED_EQUAL = 50
 
     __slots__ = ["obj_class", "prob", "box"]
 
@@ -46,11 +46,17 @@ class PredResult:
         return r == 1 or r == 0
 
     def __cmp__(self, other):
-        if self.prob < other.prob:
-            return -1
-        elif self.prob > other.prob:
-            return 1
-        return 0
+        if self.obj_class == other.obj_class:
+            if self.prob < other.prob:
+                return -1
+            elif self.prob > other.prob:
+                return 1
+            return 0
+        else:
+            if self.obj_class > other.obj_class:
+                return 1
+            else:
+                return -1
 
     def to_serializable(self):
         return {"obj_class": self.obj_class, "prob": self.prob, "box": list(self.box)}

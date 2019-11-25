@@ -1,16 +1,17 @@
+import json
 import logging
 import os
 import time
-from typing import List
+from typing import List, Dict, Any
 
 LOG_NAME = "recogn-img"
 TENSORFLOW_LOG_NAME = "tensorflow"
 
 
 def setup_log(verbose: bool = False):
-    log_format = '%(asctime)s %(levelname)s: %(message)s'
     logging.basicConfig(level=logging.INFO if not verbose else logging.DEBUG,
-                        format=log_format)
+                        format="%(asctime)s.%(msecs)03d|%(levelname)-7s| %(message)s",
+                        datefmt="%Y-%m-%dT%H:%M:%S")
     logging.Formatter.converter = time.gmtime
     tf_log = logging.getLogger(TENSORFLOW_LOG_NAME)
     tf_log.setLevel(logging.ERROR if not verbose else logging.INFO)
@@ -29,3 +30,13 @@ def read_classes(classes_file: str) -> List[str]:
     with open(classes_file) as f_:
         class_names = f_.readlines()
     return [c.strip() for c in class_names]
+
+
+def read_json(file_path: str) -> Dict[str, Any]:
+    with open(file_path, "r") as in_file:
+        return json.load(in_file)
+
+
+def write_json(content: Dict[str, Any], file_path: str) -> None:
+    with open(file_path, "w") as out_file:
+        json.dump(content, out_file)
