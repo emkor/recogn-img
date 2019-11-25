@@ -22,10 +22,13 @@ class RecognRender:
         with open(self.results_file_path, "r") as file_:
             all_results = json.load(file_)
         for img_file_path, results in all_results.items():
-            if results:
-                tgt_img_path = path.join(self.output_path, path.basename(img_file_path))
-                self._store_rendered_image(img_file_path, results, tgt_img_path)
-                copied_images += 1
+            if path.isfile(img_file_path):
+                if results:
+                    tgt_img_path = path.join(self.output_path, path.basename(img_file_path))
+                    self._store_rendered_image(img_file_path, results, tgt_img_path)
+                    copied_images += 1
+            else:
+                self.log.warning(f"Image {img_file_path} does not exist!")
         return copied_images
 
     def _store_rendered_image(self, orig_img_path: str, results: List[Dict[str, Any]], tgt_img_path: str) -> None:
