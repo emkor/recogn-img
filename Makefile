@@ -1,4 +1,5 @@
 all: ut build dl_model e2e
+docker: dl_model docker-x86-cpu-aio
 config: clean venv install
 
 PY3 = python3
@@ -29,12 +30,17 @@ ut:
 
 build:
 	@echo "---- Building package ---- "
+	@rm -rf ./dist/*
 	@$(VENV_PY3) setup.py sdist bdist_wheel --python-tag py3 --dist-dir ./dist
 
 dl_model:
 	@echo "---- Downloading classes and model if not cached... ----"
 	@if [ ! -f "coco_classes.txt" ]; then wget -O "coco_classes.txt" $(CLASSES_FILE_URL); fi
 	@if [ ! -f "yolov3.h5" ]; then wget -O yolov3.h5.zip $(MODEL_FILE_URL) && unzip yolov3.h5.zip && rm yolov3.h5.zip; fi
+
+docker-x86-cpu-aio:
+	@echo "---- Building docker image... ----"
+	@docker build -t "recogn-img:x86-cpu-aio" -f Dockerfile .
 
 e2e:
 	@echo "---- E2E testing (requires downloaded model!) ---- "
