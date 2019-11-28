@@ -2,6 +2,8 @@ language: python
 cache: pip
 python:
   - "3.7"
+services:
+  - docker
 
 install:
   - make config
@@ -11,6 +13,12 @@ script:
   - make build
   - make dl_model
   - make e2e
+  - make docker
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    make publish;
+    fi
 
 notifications:
   email:

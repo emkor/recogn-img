@@ -40,7 +40,13 @@ dl_model:
 
 docker-x86-cpu-aio:
 	@echo "---- Building docker image... ----"
-	@docker build -t "recogn-img:x86-cpu-aio" -f Dockerfile .
+	@docker-compose build
+
+publish:
+	@echo "---- Publishing docker image... ----"
+	@docker login -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
+	@docker tag recogn-img:x86-cpu-aio ${DOCKER_USER}/recogn-img:x86-cpu-aio
+	@docker push ${DOCKER_USER}/recogn-img:x86-cpu-aio
 
 e2e:
 	@echo "---- E2E testing (requires downloaded model!) ---- "

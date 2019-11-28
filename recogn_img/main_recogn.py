@@ -31,6 +31,7 @@ def main(model_file: str, classes_file: str, input_dir: str, results_file: str,
     setup_log(verbose=verbose)
     log = get_log()
     classes = read_classes(classes_file)
+    log.info(f"Starting detection at {input_dir} using {len(classes)} classes")
     recognizer = Recognizer(model_path=model_file, classes=classes,
                             img_width_height=(img_width, img_height),
                             threshold_box_obj=(box_threshold, obj_threshold))
@@ -40,7 +41,7 @@ def main(model_file: str, classes_file: str, input_dir: str, results_file: str,
         if results:
             detections += 1
             output.update({img_path: _serialized_results_desc(results)})
-            log.debug(f"Detection on {path.basename(img_path)}: {set([r.obj_class for r in results])}")
+            log.debug(f"Detection #{detections} on image #{images} at {path.basename(img_path)}: {set([r.obj_class for r in results])}")
     if output:
         with open(results_file, "w") as results_file_:
             json.dump(output, results_file_)
