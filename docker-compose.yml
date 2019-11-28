@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: never
     command: recogn-img /src/yolov3.h5 /src/coco_classes.txt /image /result/results.json --box-threshold 0.4 --obj-threshold 0.5
     volumes:
       - ./image:/image:ro

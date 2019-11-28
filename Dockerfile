@@ -1,6 +1,6 @@
 FROM python:3.7-slim-stretch
 
-RUN apt update && apt install -y libsm6 libxext6 libxrender1
+RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender1 libglib2.0-0
 
 WORKDIR /src
 RUN mkdir -p /image && mkdir -p /result && mkdir -p /render

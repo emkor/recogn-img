@@ -12,3 +12,6 @@ dist/
 **tmp**
 *classes.txt
 *.h5
+
+image/*
+result/*
