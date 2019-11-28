@@ -1,5 +1,5 @@
 all: ut build dl_model e2e
-docker: dl_model docker-x86-cpu-aio
+docker: dl_model docker-x86-cpu-aio docker_e2e
 config: clean venv install
 
 PY3 = python3
@@ -38,18 +38,23 @@ dl_model:
 	@if [ ! -f "coco_classes.txt" ]; then wget -O "coco_classes.txt" $(CLASSES_FILE_URL); fi
 	@if [ ! -f "yolov3.h5" ]; then wget -O yolov3.h5.zip $(MODEL_FILE_URL) && unzip yolov3.h5.zip && rm yolov3.h5.zip; fi
 
+e2e:
+	@echo "---- E2E testing (requires downloaded model!) ---- "
+	@$(VENV_PY3) -m pytest -v --cov=./recogn_img --cov-append ./recogn_img/test/e2e
+
 docker-x86-cpu-aio:
 	@echo "---- Building docker image... ----"
 	@docker-compose build
+
+docker_e2e:
+	@echo "---- Building docker image... ----"
+	@docker-compose up
+	@docker-compose down
 
 publish:
 	@echo "---- Publishing docker image... ----"
 	@docker login -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
 	@docker tag recogn-img:x86-cpu-aio ${DOCKER_USER}/recogn-img:x86-cpu-aio
 	@docker push ${DOCKER_USER}/recogn-img:x86-cpu-aio
-
-e2e:
-	@echo "---- E2E testing (requires downloaded model!) ---- "
-	@$(VENV_PY3) -m pytest -v --cov=./recogn_img --cov-append ./recogn_img/test/e2e
 
 .PHONY: venv install ut dl_model e2e build config all
