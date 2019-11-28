@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  recogn-img:
+    image: recogn-img:x86-cpu-aio
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command: recogn-img /src/yolov3.h5 /src/coco_classes.txt --box-threshold 0.3 --obj-threshold 0.4
+    volumes:
+      - ./images:/image
+      - ./result:/result
