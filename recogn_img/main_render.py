@@ -30,7 +30,10 @@ def main(results_file: str, output_dir: str, copy_exif: bool, verbose: bool) -> 
         log.error(f"Either given results file {results_file} or output path {output_dir} does not exist")
         exit(1)
     took_sec = time.time() - start_time
-    log.info(f"Done, took {took_sec:.1f}s = {(took_sec / copied_images):.3f}s/image")
+    if copied_images > 0:
+        log.info(f"Done, took {took_sec:.1f}s = {(took_sec / copied_images):.3f}s/image")
+    else:
+        log.warning(f"Did not copy any images in {took_sec:.1f}s")
 
 
 def _serialized_results_desc(results: List[PredResult]) -> List[PredResult]:

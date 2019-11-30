@@ -23,7 +23,6 @@ def filter_classes(input_content: Dict[str, Any], whitelist: Set[str]) -> Dict[s
         detections = [d for d in detections if d["obj_class"] in whitelist]
         if detections:
             output[img_path] = detections
-    print(f"After filtering: {len(output)}/{len(input_content)} images")
     return output
 
 
@@ -59,7 +58,8 @@ def main(input_file: str, output_file: str, whitelist: Set[str]) -> None:
     if whitelist:
         content = filter_classes(content, whitelist)
 
-    log.info("De-serializing prediction result objects...")
+    log.info(f"After filtering: {len(content)} images, de-serializing prediction result objects...")
+
     for img_path, pred_results_dict_list in content.items():
         content.update({img_path: [PredResult.from_serializable(pr) for pr in pred_results_dict_list]})
 
@@ -77,7 +77,7 @@ def main(input_file: str, output_file: str, whitelist: Set[str]) -> None:
 
     serialized: Dict[str, List[Dict[str, Any]]] = {img_path: [p.to_serializable() for p in preds]
                                                    for img_path, preds in output.items()}
-    log.info(f"Writing {len(serialized)} images data to {output_file}")
+    log.info(f"Writing {len(serialized)} / {len(content)} images data to {output_file}")
     write_json(serialized, output_file)
 
 

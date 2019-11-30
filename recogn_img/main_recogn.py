@@ -42,11 +42,8 @@ def main(model_file: str, classes_file: str, input_dir: str, results_file: str,
             detections += 1
             output.update({img_path: _serialized_results_desc(results)})
             log.debug(f"Detection #{detections} on image #{images} at {path.basename(img_path)}: {set([r.obj_class for r in results])}")
-    if output:
-        with open(results_file, "w") as results_file_:
-            json.dump(output, results_file_)
-    else:
-        log.info("No detections, omitting creating results file")
+    with open(results_file, "w") as results_file_:
+        json.dump(output, results_file_)
     took_sec = time.time() - start_time
     if images > 0:
         log.info(

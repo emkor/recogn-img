@@ -35,7 +35,7 @@ class RecognRender:
         pred_results = [PredResult.from_serializable(r) for r in results]
         image = cv2.imread(orig_img_path)
         image = self._draw_boxes(image, results=pred_results)
-        cv2.imwrite(tgt_img_path, image, [cv2.IMWRITE_JPEG_QUALITY, 40])
+        cv2.imwrite(tgt_img_path, image, [cv2.IMWRITE_JPEG_QUALITY, 45])
         if self.transfer_exif:
             self._transfer_exif(orig_img_path, tgt_img_path)
 
